@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-sidecar
+  namespace: default  
+  labels:
+    app: nginx
+spec:
+  containers:
+#container1: main application(nginx web server)
+  - name: nginx-with-sidecar
+    image: nginx:1.25
+    volumeMounts:
+     - name: shared-logs
+       mounthPath: /var/log/nginx
+#container2:sidecar(log collector/forwarder)
+
+     - name: log-sidecar
+       image: busybox
+       command: ["sh", "-c", "tail -n+1 -f /logs/access.log"] #logs continuously display
+    volumeMounts:
+      - name: shared-logs
+        mountPath: /logs
+          # shared volumes(bridge between containers          
+  volumes:
+  - name: shared-logs
+    emptyDir: {} #temporary storage,pod delete bhaye data janxa
