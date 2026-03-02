@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nginx-deployment-1
   namespace: service-lab
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-1
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx-1
     spec:
       containers:
       - name: nginx
@@ -23,12 +23,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-clusterip
+  name: nginx-clusterip-1
   namespace: service-lab
 spec:
   type: ClusterIP
   selector:
-    app: nginx
+    app: nginx-1
   ports:
     - port: 80
       targetPort: 80
